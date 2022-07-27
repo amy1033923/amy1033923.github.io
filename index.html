@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+<head>
+    <title></title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta property="og:url" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:title" content="" />
+    <meta property="og:site_name" content="">
+    <meta property="og:description" content="" />
+    <meta property="og:image" content="" />
+    <link rel="icon" href="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-easy-loading@1.3.0/dist/jquery.loading.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://cdn.dhtmlx.com/edge/dhtmlx.css" type="text/css">
+
+    <link rel="stylesheet" href="docs/css/root.css?<?=time()?>">
+    <link rel="stylesheet" href="docs/css/style.css?<?=time()?>">
+    <link rel="stylesheet" href="docs/css/reset.css?<?=time()?>">
+</head>
+
+<body>
+    <header w3-include-html="header.html"></header>
+    <section>
+        <div class="page">
+            <div class="page-left" id="navbarNavDropdown" w3-include-html="nav.html"></div>
+            <div class="page-right">
+                <div class="store-set">
+                    <div class="store-set-area">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">首頁</a></li>
+                                <li class="breadcrumb-item"><a href="#">基本設定</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">商店設定</li>
+                            </ol>
+                        </nav>
+                        <div class="title">
+                            商店設定
+                        </div>
+                        <div class="basic">
+                            <div class="basic-area">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="basic-title">商店基本資訊</div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div>
+                                            <div class="basic-item">
+                                                <div class="basic-store">
+                                                    <div class="basic-open">
+                                                        <label for="">商店營運</label>
+                                                        <div class="custom-control custom-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="customSwitch1">
+                                                            <label class="custom-control-label"
+                                                                for="customSwitch1"></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="store-type">
+                                                        <label>商店類別</label>
+                                                        <span>精品服飾</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="basic-item">
+                                            <div class="">
+                                                <label for="">商店名稱</label>
+                                                <input type="text" class="form-control form-control-sm"
+                                                    placeholder="商店名稱">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="basic-item">
+                                            <label for="">E-mail</label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                placeholder="E-mail">
+                                            <div class="basic-footer">
+                                                <label class="checkbox-area">
+                                                    <input type="checkbox" id="overdueCheckbox"> <span></span>
+                                                </label>
+                                                <label for="">顯示於網站頁尾</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="basic-item">
+                                            <label for="">連絡電話</label>
+                                            <input type="text" class="form-control form-control-sm" placeholder="聯絡電話">
+                                            <div class="basic-footer">
+                                                <label class="checkbox-area">
+                                                    <input type="checkbox" id="overdueCheckbox"> <span></span>
+                                                </label>
+                                                <label for="">顯示於網站頁尾</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="basic-item">
+                                            <label for="">店家地址</label>
+                                            <input type="text" class="form-control form-control-sm" placeholder="店家地址">
+                                            <div class="basic-footer">
+                                                <label class="checkbox-area">
+                                                    <input type="checkbox" id="overdueCheckbox"> <span></span>
+                                                </label>
+                                                <label for="">顯示於網站頁尾</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="basic-item">
+                                            <label for="">統一編號</label>
+                                            <input type="text" class="form-control form-control-sm" placeholder="統一編號">
+                                            <div class="basic-footer">
+                                                <label class="checkbox-area">
+                                                    <input type="checkbox" id="overdueCheckbox"> <span></span>
+                                                </label>
+                                                <label for="">顯示於網站頁尾</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="basic-item">
+                                            <label for="">寄件人姓名</label>
+                                            <input type="text" class="form-control form-control-sm" placeholder="寄件人姓名">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="basic-half">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="basic-area">
+                                            <div class="">
+                                                <div class="basic-title">前台社群連結</div>
+                                            </div>
+                                            <div class="">
+                                                <div class="basic-item">
+                                                    <label for="">Facebook粉絲專頁</label>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        placeholder="Facebook粉絲專頁">
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <div class="basic-item">
+                                                    <label for="">Instagram</label>
+                                                    <div class="input-group">
+                                                        <div class="basic-group-text">
+                                                            <span class=""
+                                                                id="basic-addon2">https://www.instagram.com/</span>
+                                                        </div>
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            placeholder="Instagram" aria-label="Recipient's username"
+                                                            aria-describedby="basic-addon2">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <div class="basic-item">
+                                                    <label for="">LINE ID</label>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        placeholder="LINE ID">
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <div class="basic-item">
+                                                    <label for="">Youtube</label>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        placeholder="Youtube">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="basic-area">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="">
+                                                        <div class="basic-title">SEO相關設定</div>
+                                                    </div>
+                                                    <div class="">
+                                                        <div class="basic-item">
+                                                            <label for="">首頁標題 (SEO - Title)</label>
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                placeholder="首頁標題 (SEO - Title)">
+                                                        </div>
+                                                    </div>
+                                                    <div class="">
+                                                        <div class="basic-item">
+                                                            <label for="">網站分頁標題後缀文字 (接尾詞)</label>
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                placeholder="網站分頁標題後缀文字 (接尾詞">
+                                                        </div>
+                                                    </div>
+                                                    <div class="">
+                                                        <div class="basic-item">
+                                                            <label for="">首頁網站描述 (SEO - Description)</label>
+                                                            <textarea class="form-control form-control-sm" name="" id=""
+                                                                cols="30" rows="2"
+                                                                placeholder="首頁網站描述 (SEO - Description)"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="basic-area">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="">
+                                                        <div class="basic-title">社群連結相關設定</div>
+                                                    </div>
+                                                    <div class="">
+                                                        <div class="basic-item">
+                                                            <label for="">社群連結標題 (Og:Title)</label>
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                placeholder="社群連結標題 (Og:Title)">
+                                                        </div>
+                                                    </div>
+                                                    <div class="">
+                                                        <div class="basic-item">
+                                                            <label for="">社群連結描述 (Og:Description)</label>
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                placeholder="社群連結描述 (Og:Description)">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="">
+                                                        <div class="basic-item">
+                                                            <label for="">Favicon 設定</label>
+                                                            <div>
+                                                                <div class="basic-upload">
+                                                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                                    <p>點擊選擇圖片或拖曳圖片至此</p>
+                                                                </div>
+                                                                <img src="" alt="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="">
+                                                        <div class="basic-item">
+                                                            <label for="">社群連結縮圖</label>
+                                                            <div>
+                                                                <div class="basic-upload">
+                                                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                                                    <p>點擊選擇圖片或拖曳圖片至此</p>
+                                                                </div>
+                                                                <img src="" alt="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="basic-area">
+                                            <div class="">
+                                                <div class="basic-title">商店網域設定</div>
+                                            </div>
+                                            <div class="">
+                                                <div class="basic-item store-site">
+                                                    <label for="">目前網域</label>
+                                                    <a href="#">https://amy0911943742.shopstore.tw</a>
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <div class="basic-item">
+                                                    <label for="">子網域域名</label>
+                                                    <div class="input-group">
+                                                        <div class="basic-group-text">
+                                                            <span class="" id="basic-addon2">https://</span>
+                                                        </div>
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            placeholder="子網域域名" aria-label="Recipient's username"
+                                                            aria-describedby="basic-addon2">
+                                                        <div class="basic-group-text right">
+                                                            <span class="" id="basic-addon2">.shopstore.tw</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <div class="basic-item">
+                                                    <label for="">獨立網域域名</label>
+                                                    <div class="input-group">
+                                                        <div class="basic-group-text">
+                                                            <span class="" id="basic-addon2">https://</span>
+                                                        </div>
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            placeholder="獨立網域域名" aria-label="Recipient's username"
+                                                            aria-describedby="basic-addon2">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <div class="basic-item">
+                                                    <label for=""><br></label>
+                                                    <div class="all-btn basic-btn">
+                                                        <button>申請<i class="fa-solid fa-check-double"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="basic-area">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="">
+                                                        <div class="basic-title">LINE即時通知</div>
+                                                    </div>
+                                                    <div class="basic-item">
+                                                        <label for="">
+                                                            可選擇「透過1對1聊天接收LINE
+                                                            Notify的通知」或其他群組來接收通知；如要使用其他群組接收通知，請將官方帳號「LINE
+                                                            Notify」邀請加入群組中。
+                                                            目前即時通知內容：有消費者完成下單、金/物流狀態更改、消費者即時訊息
+                                                        </label>
+                                                        <div class="all-btn basic-btn">
+                                                            <button>前往連動<i
+                                                                    class="fa-solid fa-circle-chevron-right"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="basic-area">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="">
+                                                        <div class="basic-title">禁止未成年進入網頁</div>
+                                                    </div>
+                                                    <div class="basic-item">
+                                                        <label for="">
+                                                            於初次訪問商店時詢問是否已成年<br>
+                                                            如店家商品中包含禁止未成年購買的商品時，建議您將此功能開啟，避免因此觸法
+                                                        </label>
+                                                        <div class="custom-control custom-switch basic-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="Switch_18">
+                                                            <label class="custom-control-label"
+                                                                for="Switch_18">開啟</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="basic-area">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="">
+                                                        <div class="basic-title">商店禁止用滑鼠右鍵</div>
+                                                    </div>
+                                                    <div class="basic-item">
+                                                        <label for="">
+                                                            在商店中禁止顧客使用滑鼠右鍵<br>
+                                                            如想禁止顧客使用滑鼠右鍵另存圖片等情況時，可以將此功能啟用
+                                                        </label>
+                                                        <div class="custom-control custom-switch basic-switch">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="Switch_mouse">
+                                                            <label class="custom-control-label"
+                                                                for="Switch_mouse">開啟</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="all-btn save-btn">
+                                <button>儲存<i class="fa-solid fa-download"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer w3-include-html="footer.html"></footer>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
+    <script src="docs/js/main.js?<?=time()?>"></script>
+    <script src="https://cdn.dhtmlx.com/edge/dhtmlx.js"></script>
+</body>
