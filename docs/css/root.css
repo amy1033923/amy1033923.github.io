@@ -1,0 +1,13 @@
+:root {
+    --main-color: #40798C;
+    --input-background: #edf0f4;
+    --warning-color: #ff621b;
+    --input-hover: #e4edf3;
+    --border-radius: 5px;
+    --font-12: 12px;
+    --font-16: 16px;
+    --box-shadow: 0 1px 1px rgb(0 0 0 / 8%);
+    --img-shadow: 1px 1px 6px 0px rgb(0 0 0 / 18%);
+    --check-color: #73a474;
+    --button-hover: #7e939e;
+}
