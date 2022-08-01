@@ -185,6 +185,41 @@ header{
     text-align: justify;
 }
 
+.college img{
+    width: 100%;
+}
+
+.college-area{
+    margin-bottom: 30px;
+}
+
+.college-area p:nth-child(2){
+    margin: 10px 0;
+}
+
+.college-area p:last-child{
+    font-size: 12px;
+}
+
+.college-img{
+    height: auto;
+    overflow-y: hidden;
+    margin-bottom: 15px;
+}
+
+.college-area a{
+    color: var(--main-color);
+    text-decoration: underline;
+}
+
+.college-area a:hover{
+    color: #0babb0;
+}
+
+.college-project{
+    margin-bottom: 30px;
+}
+
 /*scrollbar*/
 
 ::-webkit-scrollbar {
