@@ -185,6 +185,24 @@ header{
     text-align: justify;
 }
 
+/*college*/
+/*
+.college{
+    position: relative;
+}
+
+.college::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e5eef1;
+    clip-path: polygon(100% 35%, 0% 100%, 100% 100%);
+    z-index: -1;
+} */
+
 .college img{
     width: 100%;
 }
@@ -218,6 +236,116 @@ header{
 
 .college-project{
     margin-bottom: 30px;
+}
+
+/*job*/
+
+.job{
+    background-color: var(--main-color);
+    padding: 30px 0;
+}
+
+.job-area i{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+.job-area p{
+    color: #ffffff;
+}
+
+.job-flex{
+    display: flex;
+    justify-content: center;
+}
+
+.job-area span{
+    font-size: 12px;
+    color: #b3eeff;
+}
+
+.job-title h5{
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/*software*/
+
+.software-area{
+    border: 1px solid var(--main-color);
+    position: relative;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.software-area img{
+    width: 15%;
+    margin: 0 15px;
+}
+
+.software-title{
+    position: absolute;
+    top: -10px;
+    width: 100%;
+    text-align: center;
+}
+
+.software-title p{
+    background-color: #39798b;
+    color: #ffffff;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 3px 15px;
+    font-size: 18px;
+}
+
+.software-img{
+    padding: 15px 0;
+    padding-top: 35px;
+    text-align: center;
+}
+
+.footer-link{
+    margin-bottom: 10px;
+}
+
+.footer-link a{
+    padding: 0 10px;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    margin-right: 5px;
+}
+
+footer a:hover{
+    color: #b3eeff;
+}
+
+/*footer*/
+
+footer{
+    padding: 15px 0;
+    background-color: var(--main-color);
+    margin-top: 50px;
+    color: #ffffff;
+}
+
+footer a{
+    color: #ffffff;
+}
+
+footer i{
+    margin-right: 5px;
+}
+
+footer div{
 }
 
 /*scrollbar*/
