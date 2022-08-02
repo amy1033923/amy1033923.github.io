@@ -32,6 +32,7 @@ header{
 
 .banner{
     position: relative;
+    padding-top: 61px;
 }
 
 .banner-bg img{
@@ -91,6 +92,59 @@ header{
     border-radius: 20px;
     text-align: justify;
     margin-top: 30px;
+}
+
+.banner-text.phone{
+    display: none;
+}
+
+@media (max-width:991px){
+    .banner-bg img{
+        min-height: 650px;
+        object-fit: cover;
+    }
+
+    .banner-position{
+        top: 65px;
+    }
+
+    .banner-left img{
+        width: 100%;
+    }
+}
+
+@media (max-width:767px){
+    .banner-bg img{
+        min-height: 1300px;
+        object-fit: cover;
+    }
+
+    .banner-text h2{
+        font-size: 24px;
+        margin-top: 15px;
+        margin-bottom: 5px;
+    }
+
+    .banner-text p{
+        font-size: 18px;
+    }
+
+
+    .banner-position{
+        top: 70px;
+    }
+
+    .banner-text h2 , .banner-text p{
+        display: none;
+    }
+
+    .banner-text.phone , .banner-text.phone h2 , .banner-text.phone p{
+        display: block;
+    }
+
+    .banner-text.phone{
+        margin-bottom: 15px;
+    }
 }
 
 .title{
@@ -185,6 +239,12 @@ header{
     text-align: justify;
 }
 
+@media (max-width:767px){
+    .skill-img{
+        margin-bottom: 30px;
+    }
+}
+
 /*college*/
 /*
 .college{
@@ -213,6 +273,7 @@ header{
 
 .college-area{
     margin-bottom: 30px;
+    margin-top: 15px;
 }
 
 .college-area p:nth-child(2){
@@ -281,6 +342,13 @@ header{
     margin-bottom: 30px;
 }
 
+@media (max-width:767px){
+    .job-flex{
+        justify-content: flex-start;
+        margin-bottom: 15px;
+    }
+}
+
 /*software*/
 
 .software{
@@ -291,7 +359,7 @@ header{
     border: 1px solid var(--main-color);
     position: relative;
     border-radius: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
 }
 
 .software-area img{
@@ -373,4 +441,111 @@ footer div{
 ::-webkit-scrollbar-thumb {
     background: #dddddd;
     border-radius: 10px;
+}
+
+
+
+@keyframes movetoleft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(150px, 0, 0);
+    transform: translate3d(150px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes movetoright {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-150px, 0, 0);
+    transform: translate3d(-150px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes movetotop {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 150px, 0);
+    transform: translate3d(0, 150px, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes movetobottom {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -150px, 0);
+    transform: translate3d(0, -150px, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+.addbottom{
+    visibility: hidden;
+}
+
+.addtop{
+    visibility: hidden;
+}
+
+.addright{
+    visibility: hidden;
+}
+
+.addleft{
+    visibility: hidden;
+}
+
+.antoright{
+  -webkit-transform-origin: 0 50%;
+      -ms-transform-origin: 0 50%;
+          transform-origin: 0 50%;
+  -webkit-animation: movetoright 0.5s linear;
+          animation: movetoright 0.5s linear;
+    visibility: visible;
+}
+
+.antoleft{
+  -webkit-transform-origin: 0 50%;
+      -ms-transform-origin: 0 50%;
+          transform-origin: 0 50%;
+  -webkit-animation: movetoleft 0.5s linear;
+          animation: movetoleft 0.5s linear;
+    visibility: visible;
+}
+
+
+.antotop{
+  -webkit-transform-origin: 0 50%;
+      -ms-transform-origin: 0 50%;
+          transform-origin: 0 50%;
+  -webkit-animation: movetotop 0.5s linear;
+          animation: movetotop 0.5s linear;
+    visibility: visible;
+}
+
+.antobottom{
+  -webkit-transform-origin: 0 50%;
+      -ms-transform-origin: 0 50%;
+          transform-origin: 0 50%;
+  -webkit-animation: movetobottom 0.5s linear;
+          animation: movetobottom 0.5s linear;
+    visibility: visible;
 }
