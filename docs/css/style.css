@@ -134,10 +134,6 @@ header{
         top: 70px;
     }
 
-    .banner-text h2 , .banner-text p{
-        display: none;
-    }
-
     .banner-text.phone , .banner-text.phone h2 , .banner-text.phone p{
         display: block;
     }
