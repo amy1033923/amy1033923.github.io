@@ -61,14 +61,14 @@ header{
 
 .banner-position{
     position: absolute;
-    top: calc(50% - 287px);
+    top: calc(50% - 280px);
     width: 100%;
 }
 
 .banner-text h2{
     font-weight: bold;
     text-shadow: 1px 1px 3px #c5c5c5;
-    margin-bottom: 30px;
+    margin-bottom: 5px;
     letter-spacing: 3px
 }
 
