@@ -327,7 +327,6 @@ header{
 
 .job-flex{
     display: flex;
-    justify-content: center;
 }
 
 .job-area span{
