@@ -310,11 +310,12 @@ header{
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: #ffffff;
+    background-color: var(--main-color);
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 15px;
+    color: #ffffff;
 }
 
 .job-area p{
