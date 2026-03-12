@@ -571,6 +571,7 @@ footer div{
         .job-content-list li {
             margin-bottom: 5px;
             line-height: 1.5;
+            list-style: outside;
         }
         .job-text p {
             margin-bottom: 2px;
