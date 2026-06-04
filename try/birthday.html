@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Idol Birthday Magazine - Ultimate Full Edition</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0d0d0d;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            user-select: none;
+        }
+
+        /* 3D 舞台 */
+        .stage {
+            perspective: 2500px;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #090909;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 🎥 雜誌主體 */
+        .magazine {
+            position: relative;
+            width: 84vw;
+            height: 70vh;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: rotateX(8deg) rotateY(-4deg) translateX(0) scale(1);
+        }
+
+        /* 🎯 鏡頭控制狀態 */
+        .magazine.view-cover {
+            transform: rotateX(8deg) rotateY(-4deg) translateX(0) scale(1);
+        }
+
+        .magazine.view-left {
+            transform: rotateX(0deg) rotateY(0deg) translateX(100vw) scale(1.2);
+        }
+
+        .magazine.view-right {
+            transform: rotateX(0deg) rotateY(0deg) translateX(0px) scale(1.2);
+        }
+
+        /* 📖 核心圖層控制 */
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transform-style: preserve-3d;
+            transform-origin: left center;
+            transition: transform 1.3s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: rotateY(0deg);
+        }
+
+        /* 📌 初始靜態層級 */
+        #page1 {
+            z-index: 5;
+        }
+
+        #page2 {
+            z-index: 4;
+        }
+
+        #page3 {
+            z-index: 3;
+        }
+
+        #page4 {
+            z-index: 1;
+        }
+
+        /* 📌 翻開後的層級調降 */
+        #page1.flipped {
+            z-index: 1;
+        }
+
+        #page2.flipped {
+            z-index: 2;
+        }
+
+        #page3.flipped {
+            z-index: 3;
+        }
+
+        /* 翻開後的旋轉 */
+        .page.flipped {
+            transform: rotateY(-180deg) !important;
+        }
+
+        .front,
+        .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background-size: cover;
+            background-position: center;
+            box-shadow: inset 0 0 140px rgba(0, 0, 0, 0.35), 0 35px 70px rgba(0, 0, 0, 0.65);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 6vh 6vw;
+            color: white;
+        }
+
+        .back {
+            transform: rotateY(180deg);
+            background-color: #141414;
+        }
+
+        /* 🎨 經典雜誌基本排版樣式 */
+        .cover-title {
+            font-size: 9.5vw;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            line-height: 0.95;
+            text-transform: uppercase;
+            border-bottom: 0.8vw solid #fff;
+            padding-bottom: 3vh;
+            text-shadow: 0 6px 25px rgba(0, 0, 0, 0.6);
+            margin-bottom: 2vh;
+        }
+
+        .cover-date {
+            font-size: 3.8vw;
+            font-weight: 400;
+            letter-spacing: 5px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .cover-footer {
+            font-size: 3.6vw;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            font-weight: 500;
+        }
+
+        .page-text {
+            background: rgba(10, 10, 10, 0.82);
+            padding: 4.5vw;
+            border-left: 1vw solid #ff3366;
+            font-size: 3.6vw;
+            line-height: 1.8;
+            border-radius: 6px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            letter-spacing: 1px;
+            backdrop-filter: blur(4px);
+        }
+
+        .right-page-title {
+            font-size: 5.5vw;
+            font-weight: 700;
+            margin-bottom: 1.5vh;
+            letter-spacing: 1.5px;
+            text-shadow: 0 3px 15px rgba(0, 0, 0, 0.6);
+        }
+
+        /* 🕒 1. 極簡時間軸專屬 CSS */
+        .timeline-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2vh 0;
+        }
+
+        .timeline-main-title {
+            font-size: 5.5vw;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 3vh;
+            color: #ff3366;
+        }
+
+        .timeline-wrapper {
+            position: relative;
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            padding-left: 5vw;
+            margin-left: 1vw;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3.5vh;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: calc(-5vw - 5px);
+            top: 8px;
+            width: 9px;
+            height: 9px;
+            background: #ff3366;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ff3366;
+        }
+
+        .timeline-year {
+            font-size: 4vw;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.5vh;
+        }
+
+        .timeline-content h4 {
+            font-size: 3vw;
+            font-weight: 600;
+            color: #33ccff;
+            margin-bottom: 0.5vh;
+        }
+
+        .timeline-content p {
+            font-size: 2.4vw;
+            color: #b0b0b0;
+            line-height: 1.5;
+        }
+
+        /* 📸 2. 網美風拍貼機專屬 CSS */
+        .photobooth-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #111;
+            padding: 1vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .film-strip {
+            background: #ffffff;
+            width: 80%;
+            height: 94%;
+            padding: 12px 12px 8px 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 1.2vh;
+            transform: rotate(-1.5deg);
+        }
+
+        .photo-slot {
+            flex: 1;
+            background-size: cover;
+            background-position: center;
+            background-color: #222;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            filter: grayscale(10%) contrast(102%);
+            transition: filter 0.3s ease;
+        }
+
+        .photo-slot:hover {
+            filter: none;
+        }
+
+        .film-footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #222;
+            padding-top: 2px;
+        }
+
+        .film-logo {
+            font-size: 2vw;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .film-date {
+            font-size: 1.5vw;
+            color: #666;
+            margin-top: 1px;
+        }
+
+        /* 🖱️ 點擊熱區 */
+        .click-trigger {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50vw;
+            z-index: 9999;
+            cursor: pointer;
+        }
+
+        .trigger-left {
+            left: 0;
+        }
+
+        .trigger-right {
+            right: 0;
+        }
+
+        /* 📌 1. 定義「啪」一聲砸下來的重力彈跳動畫 */
+        @keyframes photoPopDrop {
+            0% {
+                opacity: 0;
+                /* 從空中高處、放大 1.4 倍、帶著歪斜的角度「砸下來」 */
+                transform: translateY(-60px) scale(1.4) rotate(8deg);
+                box-shadow: 0 40px 60px rgba(0, 0, 0, 0);
+                filter: blur(2px) brightness(1.5);
+                /* 剛掉落時帶點速度模糊和強光 */
+            }
+
+            /* 70% 時重重砸到表面 */
+            70% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(0deg);
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+                filter: blur(0) brightness(1);
+            }
+
+            /* 85% 時產生微小的反彈（物理打擊感核心！） */
+            85% {
+                transform: translateY(-4px) scale(1.02) rotate(-0.5deg);
+                box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+            }
+
+            /* 100% 啪一聲完美定格 */
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(0deg);
+                box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+                filter: grayscale(10%) contrast(102%);
+            }
+        }
+
+        /* 📌 2. 底部 Logo 標籤的利落進場 */
+        @keyframes labelSnap {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* 📌 3. 翻頁觸發點 */
+        #page2.flipped .photo-slot {
+            opacity: 0;
+            /* 動畫時間縮短到 0.45 秒，讓落下的速度極快、極乾脆 */
+            animation: photoPopDrop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        #page2.flipped .film-footer {
+            opacity: 0;
+            animation: labelSnap 0.3s ease-out 1.5s forwards;
+        }
+
+        /* 📌 4. 緊湊的階梯式延遲：啪！啪！啪！啪！ */
+        /* 每隔 0.25 秒就砸下一張，節奏清脆不拖沓 */
+        #page2.flipped .photo-slot:nth-child(1) {
+            animation-delay: 0.3s;
+        }
+
+        #page2.flipped .photo-slot:nth-child(2) {
+            animation-delay: 0.55s;
+        }
+
+        #page2.flipped .photo-slot:nth-child(3) {
+            animation-delay: 0.8s;
+        }
+
+        #page2.flipped .photo-slot:nth-child(4) {
+            animation-delay: 1.05s;
+        }
+
+        .awards-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 1vh 0;
+        }
+
+        .awards-main-title {
+            font-size: 4.5vw;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #ff3366;
+            line-height: 1;
+        }
+
+        .awards-subtitle {
+            font-size: 2vw;
+            color: #888;
+            margin-bottom: 2vh;
+            letter-spacing: 1px;
+        }
+
+        /* 3x3 網格 */
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 1vh;
+            flex: 1;
+            perspective: 1000px;
+        }
+
+        .award-card {
+            background-size: cover;
+            background-position: center;
+            background-color: #222;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            opacity: 0;
+            /* 初始隱藏，準備跑進場 */
+        }
+
+        /* 遮罩：預設微暗，Hover時亮起 */
+        .award-mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1vh;
+            transition: all 0.3s ease;
+        }
+
+        .movie-title {
+            font-size: 2vw;
+            font-weight: 700;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .movie-badge {
+            font-size: 1.4vw;
+            color: #ff3366;
+            /* 應援色 */
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        /* Hover 互動：卡片亮起並微微放大 */
+        .award-card:hover .award-mask {
+            background: linear-gradient(to top, rgba(255, 51, 102, 0.4) 10%, rgba(0, 0, 0, 0));
+        }
+
+        .award-card:hover {
+            transform: scale(1.03) translateZ(10px);
+            z-index: 10;
+            box-shadow: 0 10px 20px rgba(255, 51, 102, 0.3);
+        }
+
+/* 📌 1. 定義 3D 骨牌重力砸下動畫 */
+@keyframes gridDominoDrop {
+    0% {
+        opacity: 0;
+        /* 從空中高處、放大 1.5 倍、3D 仰角 70 度一瞬間「拍砸」下來 */
+        transform: translateZ(150px) rotateX(-70deg) translateY(-40px);
+        filter: brightness(2) blur(2px); /* 登場瞬間自帶高光與速度模糊 */
+    }
+    65% {
+        opacity: 1;
+        transform: translateZ(0) rotateX(5deg) translateY(0); /* 砸到表面微微過頭 */
+        filter: brightness(1.2) blur(0);
+    }
+    85% {
+        transform: translateZ(10px) rotateX(-3deg); /* 物理反彈，增加打擊靈魂 */
+    }
+    100% {
+        opacity: 1;
+        transform: translateZ(0) rotateX(0deg) translateY(0);
+        filter: brightness(1) blur(0);
+    }
+}
+
+/* 📌 2. 綁定動畫屬性 */
+#page1.flipped .award-card {
+    /* 動畫縮短到 0.38 秒，讓落下的瞬間極其乾脆利落 */
+    animation: gridDominoDrop 0.38s cubic-bezier(0.175, 0.885, 0.32, 1.2) forwards;
+}
+
+/* 📌 3. 核心修正：拉開「階梯式延遲」，讓 9 部劇依序啪啪啪亮起 */
+/* 故意排成 Z 字型順序登場，每隔 0.12 秒砸下一部，節奏清脆、高能不斷！ */
+#page1.flipped .award-card:nth-child(1) { animation-delay: 0.15s; }
+#page1.flipped .award-card:nth-child(2) { animation-delay: 0.27s; }
+#page1.flipped .award-card:nth-child(3) { animation-delay: 0.39s; }
+#page1.flipped .award-card:nth-child(4) { animation-delay: 0.51s; }
+#page1.flipped .award-card:nth-child(5) { animation-delay: 0.63s; }
+#page1.flipped .award-card:nth-child(6) { animation-delay: 0.75s; }
+#page1.flipped .award-card:nth-child(7) { animation-delay: 0.87s; }
+#page1.flipped .award-card:nth-child(8) { animation-delay: 0.99s; }
+#page1.flipped .award-card:nth-child(9) { animation-delay: 1.11s; }
+
+        /* ==========================================
+   🎆 Page 05 專屬：方案三引言體 + 璀璨煙花特效 CSS
+   ========================================== */
+
+/* ✍️ 方案三：排版與文字進場動畫 */
+.bless-content-v3 {
+    position: relative;
+    width: 100%;
+    z-index: 10;
+    opacity: 0;
+}
+.giant-quote {
+    position: absolute;
+    top: -6vh;
+    left: -6vw;
+    font-size: 16vw;
+    color: rgba(236, 201, 75, 0.12); /* 金色大引言 */
+    font-family: Georgia, serif;
+    line-height: 1;
+    z-index: 1;
+}
+.bless-signature {
+    text-align: right;
+    color: #666;
+    font-size: 2.2vw;
+    letter-spacing: 2px;
+    margin-top: 4vh;
+    text-transform: uppercase;
+}
+
+/* 翻開當頁時，文字優雅向右滑入淡入 */
+#page3.flipped .bless-content-v3 {
+    animation: v3ContentFade 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.4s forwards;
+}
+@keyframes v3ContentFade {
+    from { opacity: 0; transform: translateX(-15px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* 🎆 煙花粒子核心技術層 */
+.fireworks-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+.firework {
+    position: absolute;
+    width: 4px; height: 4px;
+}
+.firework.f1 { top: 25%; left: 20%; }   /* 煙花一位置 */
+.firework.f2 { top: 65%; left: 75%; }   /* 煙花二位置 */
+
+.particle {
+    position: absolute;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: #ecc94b; /* 主色：黃金色 */
+    opacity: 0;
+}
+
+/* 讓偶數粒子帶有你的偶像應援色（例如桃粉色 #ff3366），讓煙花有層次感 */
+.particle:nth-child(even) {
+    background: #ff3366; 
+}
+
+/* 🚀 煙花炸開向八個方向擴散的震撼物理動畫（無限循環） */
+@keyframes fwBlast {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0;
+    }
+    1% {
+        opacity: 1; /* 啪一聲瞬間亮起 */
+    }
+    40% {
+        opacity: 1;
+        /* 增加重度強光光暈 (blur) 讓畫面極亮 */
+        box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+    }
+    100% {
+        /* 向外彈射 80px 到 120px，並模擬重力微微下墜 */
+        transform: translate(var(--x), var(--y)) scale(0.3);
+        opacity: 0;
+        box-shadow: 0 0 0px transparent;
+    }
+}
+
+/* 當翻頁啟動時，煙花粒子開始狂歡 */
+#page3.flipped .particle {
+    animation: fwBlast 1.8s cubic-bezier(0.1, 0.8, 0.25, 1) infinite;
+}
+
+/* 煙花一與煙花二錯開時間炸開，更生動 */
+#page3.flipped .f2 .particle {
+    animation-delay: 0.5s; /* 慢半秒炸開 */
+}
+
+/* 🎯 利用 CSS 變數定義 8 個粒子的爆炸噴射角度（完美的 360 度擴散） */
+.particle.p1 { --x: 0px; --y: -90px; }
+.particle.p2 { --x: 65px; --y: -65px; }
+.particle.p3 { --x: 90px; --y: 0px; }
+.particle.p4 { --x: 65px; --y: 65px; }
+.particle.p5 { --x: 0px; --y: 90px; }
+.particle.p6 { --x: -65px; --y: 65px; }
+.particle.p7 { --x: -90px; --y: 0px; }
+.particle.p8 { --x: -65px; --y: -65px; }
+    </style>
+</head>
+
+<body>
+
+    <div class="click-trigger trigger-left" onclick="navigate('left')"></div>
+    <div class="click-trigger trigger-right" onclick="navigate('right')"></div>
+
+    <div class="stage">
+        <div class="magazine view-cover" id="magazine">
+
+            <div class="page" id="page1">
+                <div class="front" style="background-image: url('./61710_0.png'); justify-content: flex-end;">
+                    <div>
+                        <div class="cover-date" style="font-size: 4.5vw; margin-bottom: 1.5vh;">06 / 10</div>
+                        <div class="cover-title">HAPPY<br>BIRTHDAY</div>
+                        <div class="cover-footer">演員沉思 ChenSi</div>
+                    </div>
+                </div>
+                <div class="back" style="background: #141414; padding: 4vh 6vw;">
+                    <div class="awards-container">
+                        <h2 class="awards-main-title" style="margin-bottom: 1.5vh;">2026 上半年 部部佳績！</h2>
+                        <p class="awards-subtitle">話題神劇・霸榜全紀錄</p>
+
+                        <div class="awards-grid">
+                            <div class="award-card" style="background-image: url('./IMG_1169.PNG');">
+                                <!-- <div class="award-mask">
+                                    <span class="movie-title">劇名 01</span>
+                                    <span class="movie-badge">現象級爆款</span>
+                                </div> -->
+                            </div>
+                            <div class="award-card" style="background-image: url('./IMG_1159.PNG');">
+                                <!-- <div class="award-mask">
+                                    <span class="movie-title">劇名 02</span>
+                                    <span class="movie-badge">全平台冠軍</span>
+                                </div> -->
+                            </div>
+                            <div class="award-card" style="background-image: url('./IMG_1160.png');">
+                                <!-- <div class="award-mask">
+                                    <span class="movie-title">劇名 03</span>
+                                    <span class="movie-badge">口碑神作</span>
+                                </div> -->
+                            </div>
+                            <div class="award-card" style="background-image: url('./IMG_1161.png');">
+                                <!-- <div class="award-mask"><span class="movie-title">劇名 04</span><span
+                                        class="movie-badge">熱搜霸榜</span></div> -->
+                            </div>
+                            <div class="award-card" style="background-image: url('./IMG_1162.png');">
+                                <!-- <div class="award-mask"><span class="movie-title">劇名 05</span><span
+                                        class="movie-badge">年度收視王</span></div> -->
+                            </div>
+                            <div class="award-card" style="background-image: url('./IMG_1163.png');">
+                                <!-- <div class="award-mask"><span class="movie-title">劇名 06</span><span
+                                        class="movie-badge">高分黑馬</span></div> -->
+                            </div>
+                            <div class="award-card" style="background-image: url('./IMG_1164.png');">
+                                <!-- <div class="award-mask"><span class="movie-title">劇名 07</span><span
+                                        class="movie-badge">話題斷層</span></div> -->
+                            </div>
+                            <div class="award-card" style="background-image: url('./IMG_1165.png');">
+                                <!-- <div class="award-mask"><span class="movie-title">劇名 08</span><span
+                                        class="movie-badge">黃金檔奇蹟</span></div> -->
+                            </div>
+                            <div class="award-card" style="background-image: url('./IMG_1166.png');">
+                                <!-- <div class="award-mask"><span class="movie-title">劇名 09</span><span
+                                        class="movie-badge">完美收官</span></div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="page2">
+                <div class="front" style="background-image: url('./IMG_1148.png');">
+                    <div></div>
+                    <div style="text-align: right;">
+                        <!-- <h2 class="right-page-title">璀璨星光</h2>
+                        <div class="cover-footer">PAGE 02</div> -->
+                    </div>
+                </div>
+                <div class="back" style="padding: 0;">
+                    <div class="photobooth-container">
+                        <div class="film-strip">
+                            <div class="photo-slot"
+                                style="background-image: url('./IMG_1133.JPG');">
+                            </div>
+                            <div class="photo-slot"
+                                style="background-image: url('./IMG_1135.JPG');">
+                            </div>
+                            <div class="photo-slot"
+                                style="background-image: url('./IMG_1150.JPG'); background-position: top;">
+                            </div>
+                            <div class="photo-slot"
+                                style="background-image: url('./IMG_1153.JPG');">
+                            </div>
+
+                            <div class="film-footer">
+                                <span class="film-logo" style="font-size: 2.5vw; letter-spacing: 5px; margin-bottom: 1vh;">喜歡你的每一面</span>
+                                <span class="film-date" style="font-size: 2.5vw;">06 / 10 Happy Birthday</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="page3">
+                <div class="front" style="background-image:  url('./IMG_1149.png');">
+                    <div></div>
+                    <!-- <div style="text-align: right;">
+                        <h2 class="right-page-title">與你相遇的奇蹟</h2>
+                        <div class="cover-footer">PAGE 04</div>
+                    </div> -->
+                </div>
+<div class="back" style="background: #0d0d0d; display: flex; justify-content: center; align-items: center; text-align: left; padding: 0 8vw; position: relative; overflow: hidden;">
+    
+    <div class="fireworks-container">
+        <div class="firework f1">
+            <div class="particle p1"></div><div class="particle p2"></div><div class="particle p3"></div><div class="particle p4"></div>
+            <div class="particle p5"></div><div class="particle p6"></div><div class="particle p7"></div><div class="particle p8"></div>
+        </div>
+        <div class="firework f2">
+            <div class="particle p1"></div><div class="particle p2"></div><div class="particle p3"></div><div class="particle p4"></div>
+            <div class="particle p5"></div><div class="particle p6"></div><div class="particle p7"></div><div class="particle p8"></div>
+        </div>
+    </div>
+
+    <div class="bless-content-v3">
+        <div class="giant-quote">“</div>
+        
+        <div class="cover-date" style="color: #ecc94b; margin-bottom: 2vh; font-size: 3.5vw; letter-spacing: 5px; font-weight: 600;">HAPPY BIRTHDAY</div>
+        
+        <p style="font-size: 3.8vw; line-height: 2.1; color: #e2e8f0; font-weight: 300; letter-spacing: 1.5px; position: relative; z-index: 2;">
+            新的一歲，願你交織出的每個瞬間<br>
+            都充滿璀璨與喜悅。<br>
+            <span style="font-size: 4.5vw; font-weight: 700; color: #ecc94b; display: inline-block; margin-top: 1.5vh; text-shadow: 0 0 12px rgba(236,201,75,0.5);">永遠閃耀。✨</span>
+        </p>
+        
+        <div class="bless-signature">
+            — 27歲 生日快樂
+        </div>
+    </div>
+</div>
+            </div>
+
+            <div class="page" id="page4">
+                <div class="front"
+                    style="background-image: url('./IMG_1155.png');">
+                    <div></div>
+                    <!-- <div style="text-align: right;">
+                        <h2 class="right-page-title">FOREVER WITH YOU</h2>
+                        <div class="cover-footer">PAGE 06</div>
+                    </div> -->
+                </div>
+                <div class="back" style="background-image: url('./IMG_1154.png');"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const magazine = document.getElementById('magazine');
+
+        // 管理所有可翻動的頁面陣列
+        const pages = [
+            document.getElementById('page1'),
+            document.getElementById('page2'),
+            document.getElementById('page3')
+        ];
+
+        let currentView = 'cover';
+        let currentPageIndex = 0;
+        let isTransitioning = false;
+
+        function navigate(direction) {
+            if (isTransitioning) return;
+
+            if (direction === 'right') {
+                if (currentView === 'cover') {
+                    pages[0].classList.add('flipped');
+                    magazine.className = 'magazine view-left';
+                    currentView = 'left';
+                    currentPageIndex = 0;
+                }
+                else if (currentView === 'left') {
+                    magazine.className = 'magazine view-right';
+                    currentView = 'right';
+                }
+                else if (currentView === 'right') {
+                    if (currentPageIndex < pages.length - 1) {
+                        currentPageIndex++;
+                        pages[currentPageIndex].classList.add('flipped');
+                        magazine.className = 'magazine view-left';
+                        currentView = 'left';
+                    } else {
+                        // 已經看完 Page 06 ➔ 執行完美的原子級全體同時闔書邏輯
+                        resetToCover();
+                    }
+                }
+            }
+            else if (direction === 'left') {
+                if (currentView === 'right') {
+                    magazine.className = 'magazine view-left';
+                    currentView = 'left';
+                }
+                else if (currentView === 'left') {
+                    if (currentPageIndex > 0) {
+                        pages[currentPageIndex].classList.remove('flipped');
+                        currentPageIndex--;
+                        magazine.className = 'magazine view-right';
+                        currentView = 'right';
+                    } else {
+                        pages[0].classList.remove('flipped');
+                        magazine.className = 'magazine view-cover';
+                        currentView = 'cover';
+                    }
+                }
+            }
+        }
+
+        // 🔒 經螢幕錄影證實、百分之百不閃爍的無縫闔書邏輯
+        function resetToCover() {
+            isTransitioning = true;
+
+            // 1. 鏡頭拉回中央封面視角
+            magazine.className = 'magazine view-cover';
+            currentView = 'cover';
+            currentPageIndex = 0;
+
+            // 2. 核心：所有翻開的頁面同時在一幀內拔掉 class，同步往右闔上。
+            // 這能確保第一頁（封面）在轉回來的路徑上完美遮蔽後方，絕對不閃退露餡！
+            pages.forEach(page => {
+                page.classList.remove('flipped');
+            });
+
+            // 3. 等待大動畫全部播放完畢（1.3秒）釋放點擊鎖定
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 1300);
+        }
+    </script>
+</body>
+
+</html>

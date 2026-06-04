@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Idol Birthday Magazine - True Physical Flip</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #0d0d0d; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; user-select: none; }
+        .stage { perspective: 2500px; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; background: #090909; overflow: hidden; position: relative; }
+        
+        .magazine { 
+            position: relative; width: 84vw; height: 70vh; transform-style: preserve-3d; 
+            transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1); 
+            transform: rotateX(8deg) rotateY(-4deg) translateX(0) scale(1); 
+        }
+        .magazine.view-cover { transform: rotateX(8deg) rotateY(-4deg) translateX(0) scale(1); }
+        .magazine.view-left { transform: rotateX(0deg) rotateY(0deg) translateX(100vw) scale(1.2); }
+        .magazine.view-right { transform: rotateX(0deg) rotateY(0deg) translateX(0px) scale(1.2); }
+
+        .page { 
+            position: absolute; width: 100%; height: 100%; top: 0; left: 0; transform-style: preserve-3d; 
+            transform-origin: left center; transition: transform 1.3s cubic-bezier(0.25, 1, 0.5, 1); transform: rotateY(0deg); 
+        }
+        
+        /* 💡 重新調整靜態層級：讓後面的頁面疊在下方 */
+        #page1 { z-index: 5; }
+        #page2 { z-index: 4; }
+        #page3 { z-index: 3; }
+        #page4 { z-index: 2; }
+
+        /* 翻開後的層級，確保後翻的蓋在先翻的上面 */
+        #page1.flipped { z-index: 1; }
+        #page2.flipped { z-index: 2; }
+        #page3.flipped { z-index: 3; }
+        #page4.flipped { z-index: 4; } /* 蓋上的時候，第四頁在最上面 */
+
+        .page.flipped { transform: rotateY(-180deg) !important; }
+        .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background-size: cover; background-position: center; box-shadow: inset 0 0 140px rgba(0,0,0,0.35), 0 35px 70px rgba(0,0,0,0.65); display: flex; flex-direction: column; justify-content: space-between; padding: 6vh 6vw; color: white; }
+        .back { transform: rotateY(180deg); }
+
+        /* 雜誌視覺樣式 */
+        .cover-title { font-size: 9.5vw; font-weight: 900; letter-spacing: -0.5px; line-height: 0.95; text-transform: uppercase; border-bottom: 0.8vw solid #fff; padding-bottom: 3vh; text-shadow: 0 6px 25px rgba(0,0,0,0.6); }
+        .cover-date { font-size: 3.8vw; font-weight: 400; letter-spacing: 5px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .cover-footer { font-size: 2.6vw; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); font-weight: 500; }
+        .right-page-title { font-size: 5.5vw; font-weight: 700; margin-bottom: 1.5vh; letter-spacing: 1.5px; text-shadow: 0 3px 15px rgba(0,0,0,0.6); }
+
+        .click-trigger { position: absolute; top: 0; bottom: 0; width: 50vw; z-index: 9999; cursor: pointer; }
+        .trigger-left { left: 0; }
+        .trigger-right { right: 0; }
+    </style>
+</head>
+<body>
+
+    <div class="click-trigger trigger-left" onclick="navigate('left')"></div>
+    <div class="click-trigger trigger-right" onclick="navigate('right')"></div>
+
+    <div class="stage">
+        <div class="magazine view-cover" id="magazine">
+
+            <div class="page" id="page1">
+                <div class="front" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.55)), url('https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=1000');">
+                    <div class="cover-date">ISSUE 0610</div>
+                    <div class="cover-title">HAPPY<br>BIRTHDAY</div>
+                    <div class="cover-footer">SPECIAL PROJECT</div>
+                </div>
+                <div class="back" style="background: #141414;">
+                    <div class="cover-date" style="color: #ff3366;">01 / START</div>
+                    <div style="font-size:3.6vw; line-height:1.8;">內頁 01 内容...</div>
+                    <div class="cover-footer">PAGE 01</div>
+                </div>
+            </div>
+
+            <div class="page" id="page2">
+                <div class="front" style="background-image: url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=1000');">
+                    <div></div>
+                    <div style="text-align: right;"><h2 class="right-page-title">璀璨星光</h2><div class="cover-footer">PAGE 02</div></div>
+                </div>
+                <div class="back" style="background: #141414;">
+                    <div class="cover-date">02 / GLOW</div>
+                    <div style="font-size:3.6vw; line-height:1.8;">內頁 03 内容...</div>
+                    <div class="cover-footer">PAGE 03</div>
+                </div>
+            </div>
+
+            <div class="page" id="page3">
+                <div class="front" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1000');">
+                    <div></div>
+                    <div style="text-align: right;"><h2 class="right-page-title">與你相遇的奇蹟</h2><div class="cover-footer">PAGE 04</div></div>
+                </div>
+                <div class="back" style="background: #141414;">
+                    <div class="cover-date">03 / FUTURE</div>
+                    <div style="font-size:3.6vw; line-height:1.8;">內頁 05 内容...</div>
+                    <div class="cover-footer">PAGE 05</div>
+                </div>
+            </div>
+
+            <div class="page" id="page4">
+                <div class="front" style="background-image: linear-gradient(to top, rgba(0,0,0,0.65), transparent), url('https://images.unsplash.com/photo-1470252649358-9694d893441f?q=80&w=1000');">
+                    <div></div>
+                    <div style="text-align: right;"><h2 class="right-page-title">FOREVER WITH YOU</h2><div class="cover-footer">PAGE 06</div></div>
+                </div>
+                
+                <div class="back" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.55)), url('https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=1000');">
+                    <div class="cover-date">ISSUE 0610</div>
+                    <div class="cover-title">HAPPY<br>BIRTHDAY</div>
+                    <div class="cover-footer">SPECIAL PROJECT</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const magazine = document.getElementById('magazine');
+        // 🚀 現在所有的 4 個 page 都要參與導覽
+        const pages = [
+            document.getElementById('page1'),
+            document.getElementById('page2'),
+            document.getElementById('page3'),
+            document.getElementById('page4')
+        ];
+        
+        let currentView = 'cover'; 
+        let currentPageIndex = 0; 
+        let isTransitioning = false; 
+
+        function navigate(direction) {
+            if (isTransitioning) return;
+
+            if (direction === 'right') {
+                if (currentView === 'cover') {
+                    pages[0].classList.add('flipped');
+                    magazine.className = 'magazine view-left';
+                    currentView = 'left';
+                    currentPageIndex = 0;
+                } 
+                else if (currentView === 'left') {
+                    magazine.className = 'magazine view-right';
+                    currentView = 'right';
+                } 
+                else if (currentView === 'right') {
+                    if (currentPageIndex < pages.length - 2) { // 還有內頁可以翻
+                        currentPageIndex++;
+                        pages[currentPageIndex].classList.add('flipped');
+                        magazine.className = 'magazine view-left';
+                        currentView = 'left';
+                    } else {
+                        // 🚀 看完 Page 06 了，再點右邊 ➔ 把第四頁翻過去（合書露出封面）
+                        closeBookPerfect();
+                    }
+                }
+            } 
+            else if (direction === 'left') {
+                if (currentView === 'right') {
+                    magazine.className = 'magazine view-left';
+                    currentView = 'left';
+                } 
+                else if (currentView === 'left') {
+                    if (currentPageIndex > 0) {
+                        pages[currentPageIndex].classList.remove('flipped');
+                        currentPageIndex--;
+                        magazine.className = 'magazine view-right';
+                        currentView = 'right';
+                    } else {
+                        pages[0].classList.remove('flipped');
+                        magazine.className = 'magazine view-cover';
+                        currentView = 'cover';
+                    }
+                }
+            }
+        }
+
+        // 🎯 真正符合物理結構的無縫合書函數
+        function closeBookPerfect() {
+            isTransitioning = true;
+            
+            // 1. 讓第四頁往前翻轉蓋上，此時畫面上會看到「背面（也就是封面）」非常順滑地蓋過來！
+            pages[3].classList.add('flipped');
+            
+            // 2. 運鏡同時拉回中央封面視角，這時畫面上本來就是封面在縮放，絕無閃爍
+            magazine.className = 'magazine view-cover';
+            currentView = 'cover';
+
+            // 3. 等到合書動畫完全做完（讀者完全處於閉合的封面視角時）
+            // 在背後悄悄把所有頁面的 flipped 拔掉，瞬間無感重置成初始狀態！
+            setTimeout(() => {
+                // 為了防止重置時畫面閃動，先短暫關閉 transition
+                magazine.style.transition = 'none';
+                pages.forEach(p => p.style.transition = 'none');
+                
+                // 重置所有狀態
+                pages.forEach(p => p.classList.remove('flipped'));
+                currentPageIndex = 0;
+                
+                // 強制瀏覽器重繪 (Reflow) 確保狀態套用
+                pages[0].offsetHeight; 
+                
+                // 把 transition 加回來
+                magazine.style.transition = 'transform 1.2s cubic-bezier(0.25, 1, 0.5, 1)';
+                pages.forEach(p => p.style.transition = 'transform 1.3s cubic-bezier(0.25, 1, 0.5, 1)');
+                
+                isTransitioning = false;
+            }, 1300);
+        }
+    </script>
+</body>
+</html>

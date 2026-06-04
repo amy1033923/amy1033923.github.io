@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Birthday Film</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:black;
+  font-family:
+    "Noto Sans TC",
+    sans-serif;
+}
+
+/* ===== 容器 ===== */
+
+.container{
+  position:relative;
+  width:100%;
+  height:100vh;
+  overflow:hidden;
+}
+
+/* ===== Scene ===== */
+
+.scene{
+  position:absolute;
+  inset:0;
+
+  opacity:0;
+
+  transform:scale(1.08);
+
+  transition:
+    opacity 1s ease,
+    transform 1.8s ease;
+
+  overflow:hidden;
+}
+
+.scene.active{
+  opacity:1;
+  transform:scale(1);
+  z-index:2;
+}
+
+/* ===== 圖片 ===== */
+
+.bg{
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+
+  opacity:.82;
+
+  animation:
+    zoom 7s ease-in-out infinite alternate;
+}
+
+@keyframes zoom{
+
+  from{
+    transform:scale(1);
+  }
+
+  to{
+    transform:scale(1.12);
+  }
+}
+
+/* ===== 電影遮罩 ===== */
+
+.overlay{
+  position:absolute;
+  inset:0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(0,0,0,.65),
+      rgba(0,0,0,.15)
+    );
+}
+
+/* ===== Blur 轉場 ===== */
+
+.blur-out{
+  animation:blurOut .8s ease;
+}
+
+@keyframes blurOut{
+
+  0%{
+    filter:blur(0px);
+    opacity:1;
+  }
+
+  100%{
+    filter:blur(12px);
+    opacity:0;
+  }
+}
+
+/* ===== 文字 ===== */
+
+.text{
+  position:absolute;
+  z-index:5;
+
+  color:white;
+
+  text-shadow:
+    0 0 25px rgba(255,255,255,.15);
+}
+
+/* ===== 不同位置 ===== */
+
+.left{
+  left:8%;
+  bottom:14%;
+}
+
+.right{
+  right:8%;
+  bottom:18%;
+
+  text-align:right;
+}
+
+.center{
+  top:50%;
+  left:50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  text-align:center;
+}
+
+/* ===== 字體 ===== */
+
+.small{
+  font-size:18px;
+  letter-spacing:2px;
+  line-height:1.7;
+}
+
+.big{
+  font-size:52px;
+  font-weight:800;
+  letter-spacing:4px;
+}
+
+/* ===== LOGO ===== */
+
+.logo{
+  position:absolute;
+
+  top:50%;
+  left:50%;
+
+  transform:
+    translate(-50%, -50%);
+
+  color:white;
+
+  font-size:34px;
+  letter-spacing:10px;
+
+  opacity:0;
+
+  animation:
+    logoFade 2s ease forwards;
+}
+
+@keyframes logoFade{
+
+  to{
+    opacity:1;
+  }
+}
+
+/* ===== 白光 ===== */
+
+.flash{
+  position:absolute;
+  inset:0;
+
+  background:white;
+
+  opacity:0;
+
+  z-index:10;
+}
+
+.flash.active{
+  animation:flash .45s ease;
+}
+
+@keyframes flash{
+
+  0%{
+    opacity:0;
+  }
+
+  50%{
+    opacity:.45;
+  }
+
+  100%{
+    opacity:0;
+  }
+}
+
+/* ===== 粒子 ===== */
+
+.particles{
+  position:absolute;
+  inset:0;
+
+  overflow:hidden;
+}
+
+.dot{
+  position:absolute;
+
+  width:2px;
+  height:2px;
+
+  background:white;
+
+  border-radius:50%;
+
+  opacity:.55;
+
+  animation:float linear infinite;
+}
+
+@keyframes float{
+
+  from{
+    transform:translateY(100vh);
+  }
+
+  to{
+    transform:translateY(-10vh);
+  }
+}
+
+/* ===== 疊影 ===== */
+
+.double{
+  animation:doubleFlash .5s ease;
+}
+
+@keyframes doubleFlash{
+
+  0%{
+    opacity:0;
+  }
+
+  50%{
+    opacity:.2;
+  }
+
+  100%{
+    opacity:0;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- LOGO -->
+
+  <section class="scene active">
+
+    <div class="logo">
+      FOR YOU
+    </div>
+
+  </section>
+
+  <!-- Scene 1 -->
+
+  <section class="scene">
+
+    <img src="image1.jpg" class="bg">
+
+    <div class="overlay"></div>
+
+    <div class="text left small">
+      「你出現以前」
+    </div>
+
+  </section>
+
+  <!-- Scene 2 -->
+
+  <section class="scene">
+
+    <img src="image2.jpg" class="bg">
+
+    <div class="overlay"></div>
+
+    <div class="text right small">
+      世界只是世界
+    </div>
+
+  </section>
+
+  <!-- Scene 3 -->
+
+  <section class="scene">
+
+    <img src="image3.jpg" class="bg">
+
+    <div class="overlay"></div>
+
+    <div class="text center big">
+      而你，是光
+    </div>
+
+    <div class="flash" id="flash"></div>
+
+  </section>
+
+  <!-- Scene 4 -->
+
+  <section class="scene">
+
+    <img src="image4.jpg" class="bg">
+
+    <div class="overlay"></div>
+
+    <div class="particles" id="particles"></div>
+
+    <div class="text center">
+
+      <div class="big">
+        XXX
+      </div>
+
+      <div
+        style="
+          margin-top:10px;
+          font-size:20px;
+          letter-spacing:5px;
+        "
+      >
+        生日快樂
+      </div>
+
+      <div
+        style="
+          margin-top:18px;
+          font-size:13px;
+          opacity:.75;
+          letter-spacing:4px;
+        "
+      >
+        少年無畏・永遠耀眼
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+<script>
+
+/*
+  ✦ 時間軸（約15秒）
+*/
+
+const scenes =
+  document.querySelectorAll(".scene");
+
+const timings = [
+  1800,
+  2800,
+  2200,
+  3000,
+  5000
+];
+
+let current = 0;
+
+function nextScene(){
+
+  scenes[current]
+    .classList.remove("active");
+
+  scenes[current]
+    .classList.add("blur-out");
+
+  current++;
+
+  if(current >= scenes.length) return;
+
+  scenes[current]
+    .classList.add("active");
+
+  // ✦ 爆點白光
+
+  if(current === 3){
+
+    document
+      .getElementById("flash")
+      .classList.add("active");
+  }
+
+  // ✦ 最後粒子
+
+  if(current === 4){
+
+    createParticles();
+  }
+
+  setTimeout(
+    nextScene,
+    timings[current]
+  );
+}
+
+setTimeout(
+  nextScene,
+  timings[0]
+);
+
+/* ===== 粒子 ===== */
+
+function createParticles(){
+
+  const container =
+    document.getElementById("particles");
+
+  for(let i=0; i<70; i++){
+
+    const dot =
+      document.createElement("div");
+
+    dot.classList.add("dot");
+
+    dot.style.left =
+      Math.random() * 100 + "%";
+
+    dot.style.animationDuration =
+      (3 + Math.random() * 5) + "s";
+
+    dot.style.opacity =
+      Math.random();
+
+    container.appendChild(dot);
+  }
+}
+
+</script>
+
+</body>
+</html>
